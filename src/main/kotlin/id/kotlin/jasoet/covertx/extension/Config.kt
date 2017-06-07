@@ -1,10 +1,6 @@
 package id.kotlin.jasoet.covertx.extension
 
-import io.vertx.config.ConfigRetriever
 import io.vertx.config.ConfigStoreOptions
-import io.vertx.core.Vertx
-import io.vertx.core.json.JsonObject
-import io.vertx.kotlin.config.ConfigRetrieverOptions
 import io.vertx.kotlin.config.ConfigStoreOptions
 import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
@@ -34,16 +30,5 @@ fun jsonConfig(path: String): ConfigStoreOptions {
     )
 }
 
-fun envConfig(): ConfigStoreOptions {
-    return ConfigStoreOptions(
-        type = "env")
-}
 
-suspend fun Vertx.retrieveConfig(vararg stores: ConfigStoreOptions): JsonObject {
-    val options = ConfigRetrieverOptions(
-        stores = stores.toList().plus(envConfig())
-    )
-    val retriever = ConfigRetriever.create(this, options)
-    return cov { retriever.getConfig(it) }
-}
 

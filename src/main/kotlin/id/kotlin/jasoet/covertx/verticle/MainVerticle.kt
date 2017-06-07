@@ -6,7 +6,7 @@ import id.kotlin.jasoet.covertx.extension.logger
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.async
 
 /**
  * [Documentation Here]
@@ -19,7 +19,7 @@ class MainVerticle constructor(val mainController: MainController) : AbstractVer
     private val config by lazy { config() }
 
     override fun start(startFuture: Future<Void>) {
-        launch(CommonPool) {
+        async(CommonPool) {
             log.info("Initialize Main Verticle...")
             log.info("Initialize Router...")
 
@@ -32,6 +32,7 @@ class MainVerticle constructor(val mainController: MainController) : AbstractVer
                 log.info("Main Verticle Deployed!")
                 startFuture.complete()
             } catch (e: Exception) {
+                log.error("Deployment Main Verticle Failed [${e.message}]", e)
                 startFuture.fail(e)
             }
         }

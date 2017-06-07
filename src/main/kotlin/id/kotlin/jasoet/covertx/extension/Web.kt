@@ -1,15 +1,11 @@
 package id.kotlin.jasoet.covertx.extension
 
 import io.netty.handler.codec.http.HttpResponseStatus
-import io.vertx.core.Handler
-import io.vertx.core.Vertx
-import io.vertx.core.http.HttpServer
 import io.vertx.core.http.HttpServerResponse
 import io.vertx.core.json.Json
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Route
-import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.templ.TemplateEngine
 
@@ -18,12 +14,6 @@ import io.vertx.ext.web.templ.TemplateEngine
  *
  * @author Deny Prasetyo.
  */
-
-suspend fun Vertx.createHttpServer(router: Router, port: Int): HttpServer {
-    val httpServer = this.createHttpServer()
-        .requestHandler { request -> router.accept(request) }
-    return cov { httpServer.listen(port, it) }
-}
 
 fun Route.first(): Route {
     return this.order(-100)
@@ -128,10 +118,6 @@ inline fun RoutingContext.prettyJson(obj: Any) {
     val response = this.response()
     response.putHeader("Content-Type", "application/json; charset=utf-8")
         .end(Json.encodePrettily(obj))
-}
-
-inline fun handler(crossinline handle: (RoutingContext) -> Unit): Handler<RoutingContext> {
-    return Handler { handle(it) }
 }
 
 @Suppress("NOTHING_TO_INLINE")

@@ -16,7 +16,7 @@ fun logger(clz: KClass<*>): Logger {
     return LoggerFactory.getLogger(clz.qualifiedName)
 }
 
-fun useLogback(){
+fun useLogback() {
     System.setProperty(LoggerFactory.LOGGER_DELEGATE_FACTORY_CLASS_NAME, SLF4JLogDelegateFactory::class.java.name)
 }
 
